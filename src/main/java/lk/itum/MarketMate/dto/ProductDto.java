@@ -6,9 +6,7 @@ import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 public class ProductDto {
     private String productId;
     private String productName;
