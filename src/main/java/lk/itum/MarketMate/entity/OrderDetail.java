@@ -1,9 +1,6 @@
 package lk.itum.MarketMate.entity;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,21 +9,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
+@IdClass(OrderProduct_PK.class)
 public class OrderDetail {
 
-    @EmbeddedId
-    private OrderProduct_PK orderItem_pk;
+    @Id
+    private String orderId;
+    @Id
+    private String productId;
+    private OrderProduct_PK orderProduct_pk;
     private int qty;
     private double unitPrice;
     private double discount;
 
 
     @ManyToOne
-    @JoinColumn(name = "orderId",referencedColumnName = "orderId",insertable = false,updatable = false)
+    @JoinColumn(name = "orderId", referencedColumnName = "orderId", insertable = false, updatable = false)
     private Orders orders;
 
     @ManyToOne
-    @JoinColumn(name = "productId",referencedColumnName = "productId",insertable = false,updatable = false)
+    @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
     private Product product;
 
 }
