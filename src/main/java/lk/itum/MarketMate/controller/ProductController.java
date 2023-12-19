@@ -2,6 +2,8 @@ package lk.itum.MarketMate.controller;
 
 import lk.itum.MarketMate.dto.ProductDto;
 import lk.itum.MarketMate.service.ProductService;
+import lk.itum.MarketMate.util.ResponseUtil;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,30 +18,33 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping
-    public String getAllProduct() {
-        return "Get All Product";
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseUtil getAllProduct() {
+        return new ResponseUtil(200,"Ok",productService.getAllProducts());
     }
 
-    @GetMapping(path = "/{productId}")
-    public String searchProduct(@PathVariable String productId) {
-        return "Product Search";
+    @GetMapping(path = "/{productId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseUtil searchProduct(@PathVariable String productId) {
+        return new ResponseUtil(200,"Ok",productService.searchProduct(productId));
     }
 
-    @PostMapping
-    public String saveProduct(@ModelAttribute ProductDto productDto) {
-        return "Product Saves";
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseUtil saveProduct(@ModelAttribute ProductDto productDto) {
+        productService.saveProduct(productDto);
+        return new ResponseUtil(200,"Saved Successfully",null);
     }
 
-    @PutMapping
-    public String updateProduct(@RequestBody ProductDto productDto) {
-        return "Product Updated";
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseUtil updateProduct(@RequestBody ProductDto productDto) {
+        productService.updateProduct(productDto);
+        return new ResponseUtil(200,"Updated Successfully",null);
     }
 
 
-    @DeleteMapping(params = {"id"})
-    public String deleteProduct(@RequestParam String productId) {
-        return "Product Deleted";
+    @DeleteMapping(params = {"id"},produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseUtil deleteProduct(@RequestParam String productId) {
+        productService.deleteProduct(productId);
+        return new ResponseUtil(200,"Deleted Successfully",null);
     }
 
 }
